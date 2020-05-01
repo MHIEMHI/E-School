@@ -21,9 +21,26 @@ public class ESchool {
     {
         // TODO code application logic here
         Scanner scanner = new Scanner(new InputStreamReader(System.in));
+        RecordsFile recordsFile = null;
         try
         {
-            RecordsFile recordsFile = new RecordsFile("testDatabase.jdb", 64);
+            recordsFile = new RecordsFile("testDatabase.jdb", "rw");
+        }
+        catch(Exception e)
+        {
+            try
+            {
+                recordsFile = new RecordsFile("testDatabase.jdb", 64);
+            }
+            catch(Exception ex)
+            {
+                System.out.println("Error occured: " + ex);
+                System.exit(0);
+            }
+        }
+        
+        try
+        {
 
             System.out.println("Reading input from console using Scanner in Java ");
             int number ;
