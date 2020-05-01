@@ -5,7 +5,11 @@
  */
 package e.school;
 
+import java.io.IOException;
+import java.io.OptionalDataException;
 import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -14,12 +18,22 @@ public abstract class BaseClass
 {
     private String key;
     private String source;
-    private RecordsFile recordsFile;
+    private static RecordsFile recordsFile;
+    private int initialSize;
     
     private BaseClass()
     {
         setKey();
         setSource();
+        initialSize = 64;
+        setRecordsFile();
+    }
+    
+    private BaseClass(int initialSize)
+    {
+        setKey();
+        setSource();
+        this.initialSize = initialSize;
         setRecordsFile();
     }
     
@@ -33,7 +47,7 @@ public abstract class BaseClass
         {
             try
             {
-                recordsFile = new RecordsFile(source, 64);
+                recordsFile = new RecordsFile(source, initialSize);
             }
             catch(Exception ex)
             {
@@ -60,7 +74,7 @@ public abstract class BaseClass
     
     private void setSource()
     {
-        source = this.getClass().getSimpleName();
+        source = this.getClass().getSimpleName() + ".jdb";
     }
 
     public String getSource()
@@ -68,9 +82,26 @@ public abstract class BaseClass
         return source;
     }
     
-    public void insert()
+    public void insert() throws IOException, RecordsFileException
     {
-        //WIP
+        RecordWriter rw = new RecordWriter(key);
+        rw.writeObject(this);
+        recordsFile.insertRecord(rw);
     }
     
+    public Object read()
+    {
+        Object d = null;
+        try
+        {
+            RecordReader rr = recordsFile.readRecord(key);
+            d = rr.readObject();
+        }
+        catch (Exception ex)
+        {
+            Logger.getLogger(BaseClass.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        System.out.println("last access was at: " + d.toString());
+        return d;
+    }
 }
