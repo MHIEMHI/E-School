@@ -30,6 +30,6 @@ public class Students extends BaseClass
     
     public String toString()
     {
-        return this.name + ' ' + this.cin + ' ' + this.cne;
+        return this.getkey() + ':' + this.name + ' ' + this.cin + ' ' + this.cne;
     }
 }

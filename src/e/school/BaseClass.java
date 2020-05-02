@@ -81,7 +81,7 @@ public abstract class BaseClass implements Serializable
         return source;
     }
     
-    public List<Object> getAll()
+    public static List<Object> getAll()
     {
         Enumeration<String> keys = recordsFile.enumerateKeys();
         List<Object> values = new ArrayList<Object>();
@@ -89,11 +89,11 @@ public abstract class BaseClass implements Serializable
         {
             try
             {
-                values.add(recordsFile.readRecord(keys.nextElement()));
+                values.add(recordsFile.readRecord(keys.nextElement()).readObject());
             } 
             catch (Exception ex)
             {
-                Logger.getLogger(BaseClass.class.getName()).log(Level.SEVERE, null, ex);
+                System.out.println("e.school.BaseClass.getAll()" + ex);
             }
         }
         return values;

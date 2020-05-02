@@ -7,6 +7,7 @@ package e.school;
 
 import java.io.*;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -30,7 +31,7 @@ public class ESchool {
             String cin ;
             String cen ;
             
-            Students s1 = null;
+            Students s1 = new Students();
 
 
             do
@@ -96,7 +97,13 @@ public class ESchool {
                     break;
                     case 5 :
                     {
-                        System.out.println("Students : " + s1.getAll());
+                        List<Object> students = Students.getAll();
+                        for (Object arg : students)
+                        {
+                            Students s = (Students)arg;
+                            System.out.println("Students : " + s.toString());
+                            System.out.println("Students : " );
+                        }
 
                     }
                     break;
