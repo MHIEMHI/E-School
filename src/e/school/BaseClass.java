@@ -5,23 +5,21 @@
  */
 package e.school;
 
-import java.io.IOException;
-import java.io.OptionalDataException;
-import java.util.UUID;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.io.*;
+import java.util.*;
+import java.util.logging.*;
 
 /**
  *
  */
-public abstract class BaseClass
+public abstract class BaseClass implements Serializable 
 {
     private String key;
-    private String source;
-    private static RecordsFile recordsFile;
-    private int initialSize;
+    private transient String source;
+    private static transient RecordsFile recordsFile;
+    private transient int initialSize;
     
-    private BaseClass()
+    public BaseClass()
     {
         setKey();
         setSource();
@@ -29,7 +27,7 @@ public abstract class BaseClass
         setRecordsFile();
     }
     
-    private BaseClass(int initialSize)
+    public BaseClass(int initialSize)
     {
         setKey();
         setSource();
@@ -82,11 +80,18 @@ public abstract class BaseClass
         return source;
     }
     
-    public void insert() throws IOException, RecordsFileException
+    public void insert()
     {
-        RecordWriter rw = new RecordWriter(key);
-        rw.writeObject(this);
-        recordsFile.insertRecord(rw);
+        try
+        {
+            RecordWriter rw = new RecordWriter(key);
+            rw.writeObject(this);
+            recordsFile.insertRecord(rw);
+        }
+        catch (Exception ex)
+        {
+            Logger.getLogger(BaseClass.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     public Object read()
@@ -103,5 +108,31 @@ public abstract class BaseClass
         }
         System.out.println("last access was at: " + d.toString());
         return d;
+    }
+    
+    public void update()
+    {
+        try
+        {
+            RecordWriter rw = new RecordWriter(key);
+            rw.writeObject(this);
+            recordsFile.updateRecord(rw);
+        }
+        catch (Exception ex)
+        {
+            Logger.getLogger(BaseClass.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void delete()
+    {
+        try
+        {
+            recordsFile.deleteRecord(key);
+        }
+        catch (Exception ex)
+        {
+            Logger.getLogger(BaseClass.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

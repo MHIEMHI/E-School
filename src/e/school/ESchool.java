@@ -21,29 +21,18 @@ public class ESchool {
     {
         // TODO code application logic here
         Scanner scanner = new Scanner(new InputStreamReader(System.in));
-        RecordsFile recordsFile = null;
-        try
-        {
-            recordsFile = new RecordsFile("testDatabase.jdb", "rw");
-        }
-        catch(Exception e)
-        {
-            try
-            {
-                recordsFile = new RecordsFile("testDatabase.jdb", 64);
-            }
-            catch(Exception ex)
-            {
-                System.out.println("Error occured: " + ex);
-                System.exit(0);
-            }
-        }
-        
         try
         {
 
             System.out.println("Reading input from console using Scanner in Java ");
-            int number ;
+            int number;
+            String name ;
+            String cin ;
+            String cen ;
+            
+            Students s1 = null;
+
+
             do
             {
                 System.out.println("Please enter your input: ");
@@ -54,35 +43,53 @@ public class ESchool {
                 System.out.println("4 : Delete");
                 System.out.println("0 : Exit");
 
+                
                 number = scanner.nextInt();
-                System.out.println("Integer input: " + number);
-
+                System.out.println("Enter student name: " + number);
+                
                 switch(number)
                 {
                     case 1 :
                     {
-                        RecordWriter rw = new RecordWriter("foo.lastAccessTime");
-                        rw.writeObject(new Date());
-                        recordsFile.insertRecord(rw);
+
+                        name = scanner.next();
+                        System.out.println("Enter student name: " + name);
+                        cin = scanner.next();
+                        System.out.println("Enter student cin: " + cin);
+                        cen = scanner.next();
+                        System.out.println("Enter student cen: " + cen);
+                        s1 = new Students(name, cin, cen);
+                        System.out.println("Student" + s1.toString());
+                        
+                        s1.insert();
                     }
                     break;
                     case 2 :
                     {
-                        RecordReader rr = recordsFile.readRecord("foo.lastAccessTime");
-                        Date d = (Date)rr.readObject();
-                        System.out.println("last access was at: " + d.toString());
+                        Students s2 = (Students) s1.read();
+                        System.out.println("last access was at: " + s2.toString());
                     }
                     break;
                     case 3 :
                     {
-                        RecordWriter rw = new RecordWriter("foo.lastAccessTime");
-                        rw.writeObject(new Date());
-                        recordsFile.updateRecord(rw);
+                        
+                        name = scanner.next();
+                        System.out.println("Enter student name: " + name);
+                        cin = scanner.next();
+                        System.out.println("Enter student cin: " + cin);
+                        cen = scanner.next();
+                        System.out.println("Enter student cen: " + cen);
+                        s1.name = name;
+                        s1.cin = cin;
+                        s1.cne = cen;
+                        System.out.println("Student" + s1.toString());
+                        
+                        s1.update();
                     }
                     break;
                     case 4 :
                     {
-                        recordsFile.deleteRecord("foo.lastAccessTime");
+                        s1.delete();
                     }
                     break;
                     case 0:
