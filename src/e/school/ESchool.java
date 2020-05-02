@@ -41,6 +41,8 @@ public class ESchool {
                 System.out.println("2 : Read");
                 System.out.println("3 : Update");
                 System.out.println("4 : Delete");
+                System.out.println("5 : getAll");
+
                 System.out.println("0 : Exit");
 
                 
@@ -90,6 +92,12 @@ public class ESchool {
                     case 4 :
                     {
                         s1.delete();
+                    }
+                    break;
+                    case 5 :
+                    {
+                        System.out.println("Students : " + s1.getAll());
+
                     }
                     break;
                     case 0:

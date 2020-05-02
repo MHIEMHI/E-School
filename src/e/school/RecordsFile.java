@@ -69,6 +69,11 @@ public class RecordsFile extends BaseRecordsFile
     return memIndex.containsKey(key);
   }
   
+public Hashtable getHashtable()
+{
+    return this.memIndex;
+}
+  
   /**
    * Maps a key to a record header by looking it up in the in-memory index.
    */

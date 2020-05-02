@@ -15,6 +15,7 @@ import java.util.logging.*;
 public abstract class BaseClass implements Serializable 
 {
     private String key;
+    
     private transient String source;
     private static transient RecordsFile recordsFile;
     private transient int initialSize;
@@ -26,7 +27,7 @@ public abstract class BaseClass implements Serializable
         initialSize = 64;
         setRecordsFile();
     }
-    
+        
     public BaseClass(int initialSize)
     {
         setKey();
@@ -78,6 +79,24 @@ public abstract class BaseClass implements Serializable
     public String getSource()
     {
         return source;
+    }
+    
+    public List<Object> getAll()
+    {
+        Enumeration<String> keys = recordsFile.enumerateKeys();
+        List<Object> values = new ArrayList<Object>();
+        while(keys.hasMoreElements())
+        {
+            try
+            {
+                values.add(recordsFile.readRecord(keys.nextElement()));
+            } 
+            catch (Exception ex)
+            {
+                Logger.getLogger(BaseClass.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return values;
     }
     
     public void insert()
