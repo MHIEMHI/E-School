@@ -11,10 +11,11 @@ import java.util.logging.*;
 
 /**
  *
+ * @param <Jdb>
  */
-public abstract class BaseClass implements Serializable 
+public class BaseClass <Jdb extends JdbObject> 
 {
-    private String key;
+    private Jdb jdb;
     
     private transient String source;
     private static transient RecordsFile recordsFile;
@@ -22,7 +23,6 @@ public abstract class BaseClass implements Serializable
     
     public BaseClass()
     {
-        setKey();
         setSource();
         initialSize = 64;
         setRecordsFile();
@@ -30,10 +30,19 @@ public abstract class BaseClass implements Serializable
         
     public BaseClass(int initialSize)
     {
-        setKey();
         setSource();
         this.initialSize = initialSize;
         setRecordsFile();
+    }
+    
+    private void setSource()
+    {
+        source = jdb.getClass().getSimpleName() + ".jdb";
+    }
+
+    public String getSource()
+    {
+        return source;
     }
     
     private void setRecordsFile()
@@ -61,26 +70,6 @@ public abstract class BaseClass implements Serializable
         return recordsFile;
     }
     
-    private void setKey()
-    {
-        key = UUID.randomUUID().toString();
-    }
-
-    public String getkey()
-    {
-        return key;
-    }
-    
-    private void setSource()
-    {
-        source = this.getClass().getSimpleName() + ".jdb";
-    }
-
-    public String getSource()
-    {
-        return source;
-    }
-    
     public static List<Object> getAll()
     {
         Enumeration<String> keys = recordsFile.enumerateKeys();
@@ -99,12 +88,12 @@ public abstract class BaseClass implements Serializable
         return values;
     }
     
-    public void insert()
+    public void insert(Jdb jdb)
     {
         try
         {
-            RecordWriter rw = new RecordWriter(key);
-            rw.writeObject(this);
+            RecordWriter rw = new RecordWriter(jdb.key);
+            rw.writeObject(jdb);
             recordsFile.insertRecord(rw);
         }
         catch (Exception ex)
@@ -113,7 +102,7 @@ public abstract class BaseClass implements Serializable
         }
     }
     
-    public Object read()
+    public Object read(String key)
     {
         Object d = null;
         try
@@ -125,16 +114,15 @@ public abstract class BaseClass implements Serializable
         {
             Logger.getLogger(BaseClass.class.getName()).log(Level.SEVERE, null, ex);
         }
-        System.out.println("last access was at: " + d.toString());
         return d;
     }
     
-    public void update()
+    public void update(String key, Jdb jdb)
     {
         try
         {
             RecordWriter rw = new RecordWriter(key);
-            rw.writeObject(this);
+            rw.writeObject(jdb);
             recordsFile.updateRecord(rw);
         }
         catch (Exception ex)
@@ -143,7 +131,7 @@ public abstract class BaseClass implements Serializable
         }
     }
     
-    public void delete()
+    public void delete(String key)
     {
         try
         {

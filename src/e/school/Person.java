@@ -9,85 +9,79 @@ package e.school;
  *
  */
 
-public class Person extends BaseClass
+public class Person extends JdbObject
 {
-	private int id;
-	private String nom;
-	private String prenom;
-	private String email;
+    private String cin;
+    private String nom;
+    private String prenom;
+    private String email;
 
-	public Person(int id, String nom, String prenom)
-        {
-            super();
-            this.id = id;
-            this.nom = nom;
-            this.prenom = prenom;
-	}
+    public Person()
+    {
+        super();
+    }
+    
+    public Person(String cin, String nom, String prenom)
+    {
+        super();
+        this.cin = cin;
+        this.nom = nom;
+        this.prenom = prenom;
+    }
 
-	public Person()
-        {
-            super();
-	}
+    public Person(String cin, String nom, String prenom, String email)
+    {
+        super();
+        this.cin = cin;
+        this.nom = nom;
+        this.prenom = prenom;
+        this.email = email;
+    }
+    
+    public String getCin()
+    {
+        return this.cin;
+    }
 
-	public Person(String nom, String prenom, String email)
-        {
-		super();
-		this.nom = nom;
-		this.prenom = prenom;
-		this.email = email;
-	}
+    public void setCin(String cin)
+    {
+        this.cin = cin;
+    }
+    
+    public String getNom()
+    {
+        return nom;
+    }
 
-	public Person(String nom, String prenom)
-        {
-		super();
-		this.nom = nom;
-		this.prenom = prenom;
-	}
+    public void setNom(String nom)
+    {
+        this.nom = nom;
+    }
 
-	public int getId()
-        {
-		return id;
-	}
+    public String getPrenom()
+    {
+        return prenom;
+    }
 
-        public void setId(int id)
-        {
-		this.id= id;
-	}
+    public void setPrenom(String prenom)
+    {
+        this.prenom = prenom;
+    }
 
-	public String getNom()
-        {
-		return nom;
-	}
+    public String getEmail()
+    {
+        return email;
+    }
 
-	public void setNom(String nom)
-        {
-		this.nom = nom;
-	}
+    public void setEmail(String email)
+    {
+        this.email = email;
+    }
 
-	public String getPrenom()
-        {
-		return prenom;
-	}
-
-	public void setPrenom(String prenom)
-        {
-		this.prenom = prenom;
-	}
-
-	public String getEmail()
-        {
-		return email;
-	}
-
-	public void setEmail(String email)
-        {
-		this.email = email;
-	}
-
-	@Override
-	public String toString()
-        {
-		return "Personne [cin=" + id + ", nom=" + nom + ", prenom=" + prenom + ", email=" + email + "]";
-	}
+    @Override
+    public String toString()
+    {
+        return "Personne [key=" + this.key + ", cin=" + cin + ", nom=" + nom + ", prenom=" + prenom + ", email=" + email + "]";
+    }
 }
 

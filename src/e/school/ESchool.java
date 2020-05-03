@@ -20,102 +20,93 @@ public class ESchool {
      */
     public static void main(String[] args) 
     {
-        // TODO code application logic here
-        Scanner scanner = new Scanner(new InputStreamReader(System.in));
-        try
+        boolean appFlag = true ;
+        boolean adminFlag = true ;
+
+              
+        BaseClass<Student> students = new BaseClass<Student>();
+        
+        while(appFlag)
         {
-
-            System.out.println("Reading input from console using Scanner in Java ");
-            int number;
-            String name ;
-            String cin ;
-            String cen ;
-            
-            Students s1 = new Students();
-
-
-            do
+            try
             {
-                System.out.println("Please enter your input: ");
-                System.out.println("Reading int from console in Java: ");
-                System.out.println("1 : Insert");
-                System.out.println("2 : Read");
-                System.out.println("3 : Update");
-                System.out.println("4 : Delete");
-                System.out.println("5 : getAll");
-
-                System.out.println("0 : Exit");
-
+		System.out.println("********************Gestion des étudiant*********************");
+		System.out.println("Menu Principal");
+		
+		System.out.println("1)  Administrateur");
+		System.out.println("2)  Étudiant");
+		
+		System.out.println("choix : ");
+		Scanner scanner=new Scanner(System.in);
+		int choix = scanner.nextInt();
                 
-                number = scanner.nextInt();
-                System.out.println("Enter student name: " + number);
-                
-                switch(number)
+		switch(choix)
                 {
                     case 1 :
                     {
-
-                        name = scanner.next();
-                        System.out.println("Enter student name: " + name);
-                        cin = scanner.next();
-                        System.out.println("Enter student cin: " + cin);
-                        cen = scanner.next();
-                        System.out.println("Enter student cen: " + cen);
-                        s1 = new Students(name, cin, cen);
-                        System.out.println("Student" + s1.toString());
-                        
-                        s1.insert();
-                    }
-                    break;
-                    case 2 :
-                    {
-                        Students s2 = (Students) s1.read();
-                        System.out.println("last access was at: " + s2.toString());
-                    }
-                    break;
-                    case 3 :
-                    {
-                        
-                        name = scanner.next();
-                        System.out.println("Enter student name: " + name);
-                        cin = scanner.next();
-                        System.out.println("Enter student cin: " + cin);
-                        cen = scanner.next();
-                        System.out.println("Enter student cen: " + cen);
-                        s1.name = name;
-                        s1.cin = cin;
-                        s1.cne = cen;
-                        System.out.println("Student" + s1.toString());
-                        
-                        s1.update();
-                    }
-                    break;
-                    case 4 :
-                    {
-                        s1.delete();
-                    }
-                    break;
-                    case 5 :
-                    {
-                        List<Object> students = Students.getAll();
-                        for (Object arg : students)
+                        while(adminFlag)
                         {
-                            Students s = (Students)arg;
-                            System.out.println("Students : " + s.toString());
-                            System.out.println("Students : " );
-                        }
+                            System.out.println("********************Bienvenu entant que administrateur *********************");
+                            System.out.println("1)  Gestion des etudiants ");
+                            System.out.println("2)  Gestion des enseignants ");
+                            System.out.println("3)  Gestion des fili�res");
+                            System.out.println("4)  Gestion des responsables");
+                            System.out.println("5)  Gestion des Modules");
+                            System.out.println("6)  Remplir la filiere apres la creation des modules et de responsable et des etudiant");
+                            System.out.println("7)  Completet l'inscription de l'etudiant dans la FiliereComplet");
+                            System.out.println("8)  QUITTER");
+                            int choixEtudiant = scanner.nextInt();
+                            switch(choixEtudiant)
+                            {
+                                case 1 :
+                                {
+                                    System.out.println("*******************Gestion des etudiants******************** ");
+                                    boolean studentFlag = true ;
+                                    Student etudiant = new Student();
+                                    while(studentFlag)
+                                    {
+                                        try
+                                        {
+                                            System.out.println("Donnez le ID de l'�tudiant");				
+                                            etudiant.setCin(scanner.next());
+                                            studentFlag = false;
+                                        }
+                                        catch (InputMismatchException e)
+                                        {
+                                            System.out.println("il ya une execption de type  " +e+  "   veuillez entrez un int ");
 
+                                            scanner.nextLine();
+                                        }
+                                    }
+                                    
+                                    System.out.println("Donnez le nom de l'�tudiant");
+                                    etudiant.setNom(scanner.next());
+                                    System.out.println("Donnez le prenom de l'�tudiant");
+                                    etudiant.setPrenom(scanner.next());
+                                    System.out.println("Donnez la ville de l'�tudiant");
+                                    etudiant.setVille(scanner.next());
+                                    System.out.println("Donnez le CNE de l'�tudiant");
+                                    etudiant.setCne(scanner.next());
+                                    System.out.println("Donnez le EMAIL de l'�tudiant");
+                                    etudiant.setEmail(scanner.next());
+                                    System.out.println("voila l'etudiant que vous avez creer \n"+etudiant);
+                                }
+
+                            }
+			    
+			    	
+			    
+		       
+				break;
+                        }
                     }
-                    break;
-                    case 0:
-                    default:
-                    break;
+
                 }
-            }while (number != 0);
-        }
-        catch(Exception e)
-        {
-            
+            }
+            catch(Exception e)
+            {
+
+            }
         }
     }
     
