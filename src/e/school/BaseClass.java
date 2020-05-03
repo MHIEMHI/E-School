@@ -6,38 +6,46 @@
 package e.school;
 
 import java.io.*;
+import java.lang.reflect.ParameterizedType;
 import java.util.*;
 import java.util.logging.*;
-
+import java.lang.reflect.Type;
 /**
  *
  * @param <Jdb>
  */
 public class BaseClass <Jdb extends JdbObject> 
 {
-    private Jdb jdb;
-    
+    private final Class<Jdb> jdb;
     private transient String source;
     private static transient RecordsFile recordsFile;
     private transient int initialSize;
     
-    public BaseClass()
+    
+    public BaseClass(Class<Jdb> jdb)
     {
+        this.jdb = jdb;
         setSource();
         initialSize = 64;
         setRecordsFile();
     }
         
-    public BaseClass(int initialSize)
+    public BaseClass(Class<Jdb> jdb, int initialSize)
     {
+        this.jdb = jdb;
         setSource();
         this.initialSize = initialSize;
         setRecordsFile();
     }
     
+    protected String getGenericName()
+    {
+        return jdb.getSimpleName();
+    }
+    
     private void setSource()
     {
-        source = jdb.getClass().getSimpleName() + ".jdb";
+        source = getGenericName() + ".jdb";
     }
 
     public String getSource()
@@ -70,7 +78,7 @@ public class BaseClass <Jdb extends JdbObject>
         return recordsFile;
     }
     
-    public static List<Object> getAll()
+    public List<Object> getAll()
     {
         Enumeration<String> keys = recordsFile.enumerateKeys();
         List<Object> values = new ArrayList<Object>();
@@ -88,7 +96,7 @@ public class BaseClass <Jdb extends JdbObject>
         return values;
     }
     
-    public void insert(Jdb jdb)
+    public void insert(JdbObject jdb)
     {
         try
         {

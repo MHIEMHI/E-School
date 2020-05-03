@@ -5,14 +5,14 @@
  */
 package e.school;
 
-import java.util.Set;
+import java.io.Serializable;
 import java.util.UUID;
 
 /**
  *
  * @author meh25
  */
-public class JdbObject 
+public class JdbObject implements Serializable
 {
     public String key;
     
@@ -31,8 +31,8 @@ public class JdbObject
         return key;
     }
     
-    private String getSource()
+    public String getSource()
     {
-       return this.getClass().getSimpleName() + ".jdb";
+       return JdbObject.class.getSimpleName() + ".jdb";
     }
 }

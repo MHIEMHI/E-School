@@ -13,18 +13,25 @@ import java.util.stream.Collectors;
  *
  * @author meh25
  */
-public class ESchool {
+public class ESchool
+{
+    BaseClass<Student> students;
 
+    public ESchool()
+    {
+        students = new BaseClass<Student>(Student.class);
+    }
+    
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) 
     {
+        ESchool app = new ESchool();
         boolean appFlag = true ;
         boolean adminFlag = true ;
+        boolean etudiantFlag = true ;
 
-              
-        BaseClass<Student> students = new BaseClass<Student>();
         
         while(appFlag)
         {
@@ -37,7 +44,7 @@ public class ESchool {
 		System.out.println("2)  Étudiant");
 		
 		System.out.println("choix : ");
-		Scanner scanner=new Scanner(System.in);
+		Scanner scanner = new Scanner(System.in);
 		int choix = scanner.nextInt();
                 
 		switch(choix)
@@ -55,52 +62,38 @@ public class ESchool {
                             System.out.println("6)  Remplir la filiere apres la creation des modules et de responsable et des etudiant");
                             System.out.println("7)  Completet l'inscription de l'etudiant dans la FiliereComplet");
                             System.out.println("8)  QUITTER");
-                            int choixEtudiant = scanner.nextInt();
-                            switch(choixEtudiant)
+                            int choixGestion = scanner.nextInt();
+                            switch(choixGestion)
                             {
                                 case 1 :
                                 {
-                                    System.out.println("*******************Gestion des etudiants******************** ");
-                                    boolean studentFlag = true ;
-                                    Student etudiant = new Student();
-                                    while(studentFlag)
-                                    {
-                                        try
+                                    while (etudiantFlag)
+                                    {                                        
+                                        System.out.println("*******************Gestion des etudiants******************** ");
+                                        System.out.println("1)  Ajout étudiant ");
+                                        System.out.println("2)  Afficher tous les étudiants ");
+                                        System.out.println("8)  QUITTER ");
+                                        int choixEtudiant = scanner.nextInt();
+                                        switch(choixEtudiant)
                                         {
-                                            System.out.println("Donnez le ID de l'�tudiant");				
-                                            etudiant.setCin(scanner.next());
-                                            studentFlag = false;
-                                        }
-                                        catch (InputMismatchException e)
-                                        {
-                                            System.out.println("il ya une execption de type  " +e+  "   veuillez entrez un int ");
-
-                                            scanner.nextLine();
+                                            case 1 :
+                                            {
+                                                app.ajouterEtudiant();
+                                            }
+                                            break;
+                                            case 2 :
+                                            {
+                                                app.afficherEtudiants();
+                                            }
+                                            break;
                                         }
                                     }
-                                    
-                                    System.out.println("Donnez le nom de l'�tudiant");
-                                    etudiant.setNom(scanner.next());
-                                    System.out.println("Donnez le prenom de l'�tudiant");
-                                    etudiant.setPrenom(scanner.next());
-                                    System.out.println("Donnez la ville de l'�tudiant");
-                                    etudiant.setVille(scanner.next());
-                                    System.out.println("Donnez le CNE de l'�tudiant");
-                                    etudiant.setCne(scanner.next());
-                                    System.out.println("Donnez le EMAIL de l'�tudiant");
-                                    etudiant.setEmail(scanner.next());
-                                    System.out.println("voila l'etudiant que vous avez creer \n"+etudiant);
                                 }
-
+                                break;
                             }
-			    
-			    	
-			    
-		       
-				break;
                         }
                     }
-
+                    break;
                 }
             }
             catch(Exception e)
@@ -110,4 +103,35 @@ public class ESchool {
         }
     }
     
+    public void ajouterEtudiant()
+    {
+        Scanner scanner = new Scanner(System.in);
+
+        Student etudiant = new Student();
+
+        System.out.println("Donnez le CIN de l'étudiant");				
+        etudiant.setCin(scanner.next());
+        System.out.println("Donnez le nom de l'étudiant");
+        etudiant.setNom(scanner.next());
+        System.out.println("Donnez le prenom de l'étudiant");
+        etudiant.setPrenom(scanner.next());
+        System.out.println("Donnez la ville de l'étudiant");
+        etudiant.setVille(scanner.next());
+        System.out.println("Donnez le CNE de l'étudiant");
+        etudiant.setCne(scanner.next());
+        System.out.println("Donnez le EMAIL de l'étudiant");
+        etudiant.setEmail(scanner.next());
+        System.out.println("voila l'étudiant que vous avez creer :\n"+etudiant);
+        
+        this.students.insert(etudiant);
+    }
+    
+    public void afficherEtudiants()
+    {
+        for (Object arg : this.students.getAll())
+        {
+            Student s = (Student)arg;
+            System.out.println(s.toString());
+        }
+    }
 }
